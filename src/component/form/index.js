@@ -78,16 +78,12 @@ export const FormDonasi = () => {
         onChange: PropTypes.func.isRequired,
     };
 
-    const [values, setValues] = React.useState({
+    const [valuesUser, setValuesUser] = React.useState({
         email: '',
         password: '',
         numberformat: '',
     });
-    const onSubmit = async (e) => {
-        setValues.email = e.email
-        setValues.password = e.email
-        setValues.donasi = e.email
-    };
+
     const required = (value) => (value ? undefined : "Required");
 
     let todayQuote = `"${quotes}"`
@@ -95,7 +91,7 @@ export const FormDonasi = () => {
     return (
         <>
             <Form
-                onSubmit={onSubmit}
+                onSubmit={() => null}
                 validate={(values) => {
                     const error = {};
                     if (values.email) {
@@ -113,76 +109,81 @@ export const FormDonasi = () => {
                 }}
                 render={(handdleSubmit, values) => {
                     return (
-                        <Form>
-                            <div className={classes.card}>
-                                <Typography variant='h5' className={classes.cardTitle}>Mari Donasi</Typography>
-                                <div className={classes.cardContent}>
-                                    <Field name="email" validate={required}>
-                                        {({ input, meta }) => (
-                                            <Box className={classes.textField}>
-                                                <TextField
-                                                    {...input}
-                                                    error={meta.error && meta.touched}
-                                                    helperText={meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
-                                                    id="outlined-textarea"
-                                                    label="Email"
-                                                    validate={(v) => validator.isEmail(v || "") && "Format email salah dan hanya menerima gmail"}
-                                                    placeholder="Masukan Email Kamu"
-                                                    fullWidth
-                                                />
 
-                                            </Box>
-                                        )}
-                                    </Field>
-                                    <Field name="password" validate={required}>
-                                        {({ input, meta }) => (
-                                            <Box className={classes.textField}>
-                                                <TextField
-                                                    {...input}
-                                                    error={meta.error && meta.touched}
-                                                    helperText={meta.error && meta.touched ? "Password tidak boleh kosong" : ''}
-                                                    id="outlined-password-input"
-                                                    label="Password"
-                                                    placeholder='Masukan Password Kamu'
-                                                    type="password"
-                                                    autoComplete="current-password"
-                                                    fullWidth
-                                                />
-                                            </Box>
-                                        )}
-                                    </Field>
-                                    <Field name="donasi" validate={required}>
-                                        {({ input, meta }) => (
-                                            <Box className={classes.textField}>
-                                                <TextField
-                                                    {...input}
-                                                    label="Donasi"
-                                                    helperText={meta.error && meta.touched ? "Donasi tidak boleh kosong" : ''}
-                                                    error={meta.error && meta.touched}
-                                                    placeholder='Masukan Donasi'
-                                                    name="numberformat"
-                                                    id="outlined-formatted-numberformat-input"
-                                                    InputProps={{
-                                                        inputComponent: NumberFormatCustom,
-                                                    }}
-                                                    fullWidth
-                                                />
-                                            </Box>
-                                        )}
-                                    </Field>
+                        <div className={classes.card}>
+                            <Typography variant='h5' className={classes.cardTitle}>Mari Donasi</Typography>
+                            <div className={classes.cardContent}>
+                                <Field name="email" validate={required}>
+                                    {({ input, meta }) => (
+                                        <Box className={classes.textField}>
+                                            <TextField
+                                                {...input}
+                                                error={meta.error && meta.touched}
+                                                helperText={meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
+                                                id="outlined-textarea"
+                                                label="Email"
+                                                validate={(v) => validator.isEmail(v || "") && "Format email salah dan hanya menerima gmail"}
+                                                placeholder="Masukan Email Kamu"
+                                                fullWidth
+                                                InputProps={{
+                                                    inputComponent: setValuesUser.email,
+                                                }}
+                                            />
 
-                                    <Box className={classes.buttonSubmit} >
-                                        <Button type='submit' className={classes.buttonSubmit} variant="contained" size="large" fullWidth>Submit</Button>
-                                    </Box>
+                                        </Box>
+                                    )}
+                                </Field>
+                                <Field name="password" validate={required}>
+                                    {({ input, meta }) => (
+                                        <Box className={classes.textField}>
+                                            <TextField
+                                                {...input}
+                                                error={meta.error && meta.touched}
+                                                helperText={meta.error && meta.touched ? "Password tidak boleh kosong" : ''}
+                                                id="outlined-password-input"
+                                                label="Password"
+                                                placeholder='Masukan Password Kamu'
+                                                type="password"
+                                                InputProps={{
+                                                    inputComponent: setValuesUser.password,
+                                                }}
+                                                autoComplete="current-password"
+                                                fullWidth
+                                            />
+                                        </Box>
+                                    )}
+                                </Field>
+                                <Field name="donasi" validate={required}>
+                                    {({ input, meta }) => (
+                                        <Box className={classes.textField}>
+                                            <TextField
+                                                {...input}
+                                                label="Donasi"
+                                                helperText={meta.error && meta.touched ? "Donasi tidak boleh kosong" : ''}
+                                                error={meta.error && meta.touched}
+                                                placeholder='Masukan Donasi'
+                                                name="numberformat"
+                                                id="outlined-formatted-numberformat-input"
+                                                InputProps={{
+                                                    inputComponent: NumberFormatCustom,
+                                                }}
+                                                fullWidth
+                                            />
+                                        </Box>
+                                    )}
+                                </Field>
 
-                                    <Box className={classes.quotes}>
-                                        <Typography variant='h5'>Quote of the day:</Typography>
-                                        <Typography margin={4} color="primary">{todayQuote}</Typography>
-                                    </Box>
-                                </div>
+                                <Box className={classes.buttonSubmit} >
+                                    <Button type='submit' className={classes.buttonSubmit} variant="contained" size="large" fullWidth>Submit</Button>
+                                </Box>
+
+                                <Box className={classes.quotes}>
+                                    <Typography variant='h5'>Quote of the day:</Typography>
+                                    <Typography margin={4} color="primary">{todayQuote}</Typography>
+                                </Box>
                             </div>
+                        </div>
 
-                        </Form>
                     )
                 }}
             />
