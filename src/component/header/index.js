@@ -11,11 +11,14 @@ const useStyles = makeStyles({
     },
     logo: {
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     logoimage: {
         padding: "20px 15px 8px",
-        width: 40,
+        width: 40, "&:hover": {
+            background: " rgba(0, 0, 0, 0.1)",
+            borderRadius: "30%",
+        },
 
     },
     logoTitle: {

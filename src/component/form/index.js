@@ -88,15 +88,15 @@ export const FormDonasi = () => {
 
     let todayQuote = `"${quotes}"`
 
+    // const validateEmail = value => (validator.isEmail(value) ? "Format email salah dan hanya menerima gmail":"");
+
+
     return (
         <>
             <Form
                 onSubmit={() => null}
                 validate={(values) => {
                     const error = {};
-                    if (values.email) {
-                        error.email = "Required"
-                    }
                     if (!values.email) {
                         error.email = "Required"
                     }
@@ -109,7 +109,6 @@ export const FormDonasi = () => {
                 }}
                 render={(handdleSubmit, values) => {
                     return (
-
                         <div className={classes.card}>
                             <Typography variant='h5' className={classes.cardTitle}>Mari Donasi</Typography>
                             <div className={classes.cardContent}>
@@ -119,10 +118,10 @@ export const FormDonasi = () => {
                                             <TextField
                                                 {...input}
                                                 error={meta.error && meta.touched}
-                                                helperText={meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
+                                                helperText={
+                                                    meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
                                                 id="outlined-textarea"
                                                 label="Email"
-                                                validate={(v) => validator.isEmail(v || "") && "Format email salah dan hanya menerima gmail"}
                                                 placeholder="Masukan Email Kamu"
                                                 fullWidth
                                                 InputProps={{
