@@ -10,6 +10,8 @@ import { useEffect } from 'react';
 import { loadQuotes } from 'redux/action/quote';
 import isEmail from 'validator/es/lib/isEmail';
 import validator from 'validator'
+import FormData from 'form-data';
+
 
 const useStyles = makeStyles({
     card: {
@@ -42,7 +44,8 @@ const useStyles = makeStyles({
 export const FormDonasi = () => {
     const quotes = useSelector(state => state.quotes.data)
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
         dispatch(loadQuotes())
@@ -84,19 +87,39 @@ export const FormDonasi = () => {
         numberformat: '',
     });
 
+    console.log(valuesUser)
+
     const required = (value) => (value ? undefined : "Required");
 
     let todayQuote = `"${quotes}"`
 
-    // const validateEmail = value => (validator.isEmail(value) ? "Format email salah dan hanya menerima gmail":"");
-
-
+    const onSubmit = async (values) => {
+        await sleep(300)
+        window.alert(JSON.stringify(values, 0, 2))
+        if (values.email !== "erikras") {
+            return { email: "Unknown email" };
+        }
+        if (values.password !== "finalformrocks") {
+            return { [FORM_ERROR]: "Login Failed" };
+        }
+        window.alert("LOGIN SUCCESS!");
+    }
+    let formData = {};
+    //    onSubmit={() => null}
     return (
         <>
             <Form
-                onSubmit={() => null}
+                onSubmit={onSubmit}
+                initialValues={
+                    formData
+                }
                 validate={(values) => {
                     const error = {};
+                    // const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    // if (re.test(String(values.email).toLowerCase())) {
+                    //     console.log("yuhu")
+                    //     error.email = error
+                    // }
                     if (!values.email) {
                         error.email = "Required"
                     }
@@ -107,81 +130,83 @@ export const FormDonasi = () => {
                     }
                     return error;
                 }}
-                render={(handdleSubmit, values) => {
+                render={(handleSubmit, values, form, submitError) => {
                     return (
-                        <div className={classes.card}>
-                            <Typography variant='h5' className={classes.cardTitle}>Mari Donasi</Typography>
-                            <div className={classes.cardContent}>
-                                <Field name="email" validate={required}>
-                                    {({ input, meta }) => (
-                                        <Box className={classes.textField}>
-                                            <TextField
-                                                {...input}
-                                                error={meta.error && meta.touched}
-                                                helperText={
-                                                    meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
-                                                id="outlined-textarea"
-                                                label="Email"
-                                                placeholder="Masukan Email Kamu"
-                                                fullWidth
-                                                InputProps={{
-                                                    inputComponent: setValuesUser.email,
-                                                }}
-                                            />
+                        <form onSubmit={handleSubmit}>
+                            <div className={classes.card}>
+                                <Typography variant='h5' className={classes.cardTitle}>Mari Donasi</Typography>
+                                <div className={classes.cardContent}>
+                                    <Field name="email" validate={required}>
+                                        {({ input, meta }) => (
+                                            <Box className={classes.textField}>
+                                                <TextField
+                                                    {...input}
+                                                    error={meta.error && meta.touched}
+                                                    helperText={
+                                                        meta.error && meta.touched ? "Email tidak boleh kosong" : ''}
+                                                    id="outlined-textarea"
+                                                    label="Email"
+                                                    placeholder="Masukan Email Kamu"
+                                                    fullWidth
+                                                    InputProps={{
+                                                        inputComponent: setValuesUser.email,
+                                                    }}
+                                                />
 
-                                        </Box>
-                                    )}
-                                </Field>
-                                <Field name="password" validate={required}>
-                                    {({ input, meta }) => (
-                                        <Box className={classes.textField}>
-                                            <TextField
-                                                {...input}
-                                                error={meta.error && meta.touched}
-                                                helperText={meta.error && meta.touched ? "Password tidak boleh kosong" : ''}
-                                                id="outlined-password-input"
-                                                label="Password"
-                                                placeholder='Masukan Password Kamu'
-                                                type="password"
-                                                InputProps={{
-                                                    inputComponent: setValuesUser.password,
-                                                }}
-                                                autoComplete="current-password"
-                                                fullWidth
-                                            />
-                                        </Box>
-                                    )}
-                                </Field>
-                                <Field name="donasi" validate={required}>
-                                    {({ input, meta }) => (
-                                        <Box className={classes.textField}>
-                                            <TextField
-                                                {...input}
-                                                label="Donasi"
-                                                helperText={meta.error && meta.touched ? "Donasi tidak boleh kosong" : ''}
-                                                error={meta.error && meta.touched}
-                                                placeholder='Masukan Donasi'
-                                                name="numberformat"
-                                                id="outlined-formatted-numberformat-input"
-                                                InputProps={{
-                                                    inputComponent: NumberFormatCustom,
-                                                }}
-                                                fullWidth
-                                            />
-                                        </Box>
-                                    )}
-                                </Field>
+                                            </Box>
+                                        )}
+                                    </Field>
+                                    <Field name="password" validate={required}>
+                                        {({ input, meta }) => (
+                                            <Box className={classes.textField}>
+                                                <TextField
+                                                    {...input}
+                                                    error={meta.error && meta.touched}
+                                                    helperText={meta.error && meta.touched ? "Password tidak boleh kosong" : ''}
+                                                    id="outlined-password-input"
+                                                    label="Password"
+                                                    placeholder='Masukan Password Kamu'
+                                                    type="password"
+                                                    InputProps={{
+                                                        inputComponent: setValuesUser.password,
+                                                    }}
+                                                    autoComplete="current-password"
+                                                    fullWidth
+                                                />
+                                            </Box>
+                                        )}
+                                    </Field>
+                                    <Field name="donasi" validate={required}>
+                                        {({ input, meta }) => (
+                                            <Box className={classes.textField}>
+                                                <TextField
+                                                    {...input}
+                                                    label="Donasi"
+                                                    helperText={meta.error && meta.touched ? "Donasi tidak boleh kosong" : ''}
+                                                    error={meta.error && meta.touched}
+                                                    placeholder='Masukan Donasi'
+                                                    name="numberformat"
+                                                    id="outlined-formatted-numberformat-input"
+                                                    InputProps={{
+                                                        inputComponent: NumberFormatCustom,
+                                                    }}
+                                                    fullWidth
+                                                />
+                                            </Box>
+                                        )}
+                                    </Field>
 
-                                <Box className={classes.buttonSubmit} >
-                                    <Button type='submit' className={classes.buttonSubmit} variant="contained" size="large" fullWidth>Submit</Button>
-                                </Box>
+                                    <Box className={classes.buttonSubmit} >
+                                        <Button type='submit' className={classes.buttonSubmit} variant="contained" size="large" fullWidth>Submit</Button>
+                                    </Box>
 
-                                <Box className={classes.quotes}>
-                                    <Typography variant='h5'>Quote of the day:</Typography>
-                                    <Typography margin={4} color="primary">{todayQuote}</Typography>
-                                </Box>
+                                    <Box className={classes.quotes}>
+                                        <Typography variant='h5'>Quote of the day:</Typography>
+                                        <Typography margin={4} color="primary">{todayQuote}</Typography>
+                                    </Box>
+                                </div>
                             </div>
-                        </div>
+                        // </form>
 
                     )
                 }}

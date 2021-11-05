@@ -3,7 +3,8 @@ import logo from "../../assets/ist.png"
 import { AppBar, Typography, Toolbar } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import { width } from "@mui/system";
-
+import { useState } from "react";
+import { useEffect } from "react";
 const useStyles = makeStyles({
     root: {
         background: "#FFFFFF",
@@ -29,6 +30,27 @@ const useStyles = makeStyles({
 
 export const Headerdonasi = () => {
     const classes = useStyles();
+
+    const [quote, setQuote] = useState([])
+
+    const getQuotes = async () => {
+        try {
+            const res = await axios.get("https://quotes.rest/qod?language=en");
+            const data = await res.data
+            setQuote(data)
+        } catch (error) {
+            console.log("error")
+        }
+    }
+
+    useEffect(() => {
+        getQuotes()
+    }, [])
+
+    console.log("ini dari header", quote)
+
+
+
     return (
         <>
             <AppBar position="relative">
